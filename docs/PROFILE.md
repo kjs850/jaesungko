@@ -38,7 +38,7 @@
 - **[KDK 대진표](https://kdk.ytcc.info/)** — 이름만 적으면 파트너를 바꿔가며 도는 복식 대진표 생성
 - **[COURT 360](https://court-view.vercel.app/)** — 올림픽공원 테니스 센터코트 예매 시 좌석별 관람 뷰 제공
 - **개인 AI 자동화 (Discord)** — 날씨·운세·뉴스 등 일상 정보를 LLM으로 요약·생성해 Discord 알림으로 매일 자동 브리핑
-- **경기 재난 화폐 맵** (2020.04) — 재난기본소득 사용 가능 매장 지도. 조직 내 발표로 실사용 사례 공유 ([발표 자료](https://docs.google.com/presentation/d/1VVlKq18UnHh_7kyVk7gBA6ABr7yBOzL46h_Jp4sJZkE/edit?usp=sharing))
+- **경기 재난 화폐 맵** (2020.04, 종료) — 재난기본소득 가맹점 지도. 공공데이터와 정적 페이지로 하루에 만들어 5일 만에 사용자 1,334명. [발표 슬라이드](https://jaesungko.vercel.app/slides/ypay-map/) · [케이스 스터디](YPAY-MAP.md)
 
 ---
 

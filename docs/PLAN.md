@@ -69,10 +69,13 @@
 ├── public/
 │   ├── profile.jpg     # 프로필 사진 640²
 │   └── shots/          # 운영 사이트 캡처 4장
+├── slides/
+│   └── ypay-map/       # 경기 재난 화폐 맵 발표 슬라이드 (index.html + img/)
 ├── vercel.json         # (선택) 헤더 캐시 설정. 없어도 동작
 └── docs/
     ├── PROFILE.md
-    └── PLAN.md
+    ├── PLAN.md
+    └── YPAY-MAP.md     # 재난 화폐 맵 케이스 스터디 + 슬라이드 구성안
 ```
 
 ## 5. 작업 단계
@@ -89,6 +92,7 @@
 - [x] 첫 화면에서 이름·직함·사진·연락처가 스크롤 없이 보임
 - [ ] Lighthouse Performance/Accessibility/SEO 90+
 - [x] 모바일(375px)에서 레이아웃 깨짐 없음
+- [x] 발표 슬라이드 `slides/ypay-map/` 8장, 1280×720 오버플로우 없음. 공개 URL: `https://jaesungko.vercel.app/slides/ypay-map/`
 - [ ] 인쇄 시 A4 1~2장
 - [ ] 외부 링크 3개 모두 정상 동작
 - [ ] Vercel URL 접근 가능
