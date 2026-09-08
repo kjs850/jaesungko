@@ -89,10 +89,13 @@ button,a{-webkit-tap-highlight-color:transparent}
 .hero-role{margin-top:34px;font-size:clamp(1.2rem,2.3vw,1.75rem);font-weight:700;line-height:1.35;max-width:660px}
 .hero-role strong{color:var(--teal);font-weight:850}
 .hero-lede{margin-top:17px;max-width:590px;color:var(--muted);font-size:1.06rem}
-.hero-actions{display:flex;align-items:center;gap:24px;margin-top:34px;flex-wrap:wrap}
+.hero-actions{display:flex;align-items:center;gap:12px 14px;margin-top:34px;flex-wrap:wrap}
 .primary-link{display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:48px;padding:0 18px;background:var(--ink);color:var(--bg);border:1px solid var(--ink);border-radius:4px;text-decoration:none;font-size:.9rem;font-weight:800;transition:background .2s,color .2s,transform .2s}
 .primary-link span{font-size:1.1rem}
 .primary-link:hover{background:var(--teal);border-color:var(--teal);color:var(--teal-ink);transform:translateY(-2px)}
+.download-link{display:inline-flex;align-items:center;justify-content:center;gap:15px;min-height:48px;padding:0 16px;border:1px solid var(--line);border-radius:4px;background:var(--paper);text-decoration:none;font-size:.86rem;font-weight:800;transition:border-color .2s,transform .2s}
+.download-link span{font-size:1.05rem}
+.download-link:hover{border-color:var(--ink);transform:translateY(-2px)}
 .location{font-size:.84rem;color:var(--muted)}
 .portrait-wrap{position:relative;align-self:center;isolation:isolate}
 .portrait-wrap::before{content:"";position:absolute;inset:7% -8% -7% 16%;z-index:-2;background:var(--teal);border-radius:var(--radius)}
@@ -273,19 +276,29 @@ a.talk-item:hover time,a.talk-item:hover p{color:inherit}
   *{scroll-behavior:auto!important;transition:none!important}
 }
 @media print{
+  @page{size:A4;margin:12mm}
   :root{--bg:#fff;--paper:#fff;--ink:#000;--muted:#444;--line:#aaa}
-  body{font-size:10pt;background:#fff}body::before,.site-nav,.hero-actions,.project-arrow{display:none}
-  .shell{width:100%;max-width:none}.hero{min-height:0;padding:0}.hero-main{grid-template-columns:1fr 130px;padding:0 0 20px;gap:25px}
-  .hero h1{font-size:50pt}.hero-role{margin-top:15px}.portrait-wrap::before,.portrait-wrap::after,.portrait-caption{display:none}
-  .hero-stats{break-inside:avoid}.section{grid-template-columns:130px 1fr;gap:25px;padding:25px 0;break-inside:auto}
+  html,body{width:auto!important;max-width:100%!important;overflow:visible!important}
+  body{font-size:10pt;background:#fff}body::before,.skip-link,.site-nav,.hero-actions,.project-arrow{display:none}
+  .shell{width:auto;max-width:100%;margin-left:0;margin-right:0}.hero{min-height:0;padding:0}.hero-main{grid-template-columns:minmax(0,1fr) 130px;padding:0 0 20px;gap:25px}
+  .hero h1{font-size:50pt}.hero-role{margin-top:15px}.portrait-wrap::after,.portrait-caption{display:none}
+  .portrait{border-color:transparent}
+  .portrait-wrap::before{display:block;inset:1px;z-index:3;background:transparent;border:1px solid #000;border-radius:calc(var(--radius) - 1px);pointer-events:none}
+  .hero-stats{break-inside:avoid}.section{grid-template-columns:130px minmax(0,1fr);gap:25px;padding:25px 0;break-inside:auto}
   .section h2{font-size:20pt}.section-intro{display:none}.lead-copy{font-size:15pt}.about-copy{margin-top:15px}
   .focus-grid{margin-top:15px}.focus-item{padding-top:12px;padding-bottom:12px}.focus-num{margin-bottom:8px}
-  .projects-section>.section-head{grid-template-columns:130px 1fr;gap:25px;margin-bottom:15px}.project-grid{grid-template-columns:1fr 1fr}
+  .projects-section>.section-head{grid-template-columns:130px minmax(0,1fr);gap:25px;margin-bottom:15px}.project-grid{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .project-card,.project-content,.project-title{min-width:0}.project-content{overflow-wrap:anywhere}
+  .project-card,.talk-item{border-color:transparent}
+  .project-card::after,.talk-item::after{content:"";position:absolute;inset:1px;z-index:3;border:1px solid var(--line);border-radius:calc(var(--radius) - 1px);pointer-events:none}
   .project-card:first-child{grid-row:auto}.project-card:first-child .project-visual,.project-card:not(:first-child) .project-visual{height:140px}
   .project-card.wide{grid-column:auto;display:block}.project-card.wide .project-visual{height:140px}.project-card.wide .project-content{padding:15px}
   .project-content{padding:12px}.project-notes{display:none}.experience-group{padding-bottom:25px}.role-block{padding:12px 0}
-  details{display:block}details:not([open])>*:not(summary){display:block}summary::after{display:none}
-  .footer{padding:30px 0 0}.footer h2{font-size:28pt}.footer-bottom{margin-top:25px}
+  #projects,#experience,#skills{break-before:page}
+  .project-card,.role-block,.previous-role,.skill-row,.talk-item{break-inside:avoid}
+  .skill-row{padding:12px 0}.talk-item{padding:16px 20px}
+  details{display:block}summary::after{display:none}
+  .footer{padding:16px 0 0}.footer h2{font-size:22pt}.footer-bottom{margin-top:12px;padding-top:10px}
 }
 </style>
 </head>
@@ -318,6 +331,7 @@ a.talk-item:hover time,a.talk-item:hover p{color:inherit}
         <p class="hero-lede">18년간 서비스의 문제를 코드로 풀어왔습니다. 지금은 현업 조직 안에서 AI 기능을 설계하고, 만들고, 실제 사용자에게 전달합니다.</p>
         <div class="hero-actions">
           <a class="primary-link" href="mailto:kojaesung@gmail.com">이야기 나누기 <span aria-hidden="true">↗</span></a>
+          <a class="download-link" href="public/jaesung-ko-profile.pdf" download="jaesung-ko-profile.pdf">PDF 다운로드 <span aria-hidden="true">↓</span></a>
           <span class="location">Based in Yongin, KR</span>
         </div>
       </div>
@@ -575,5 +589,18 @@ a.talk-item:hover time,a.talk-item:hover p{color:inherit}
   </div>
   <div class="footer-bottom"><span>JAESUNG KO · FORWARD DEPLOYED ENGINEER</span><span>Designed with clarity · 2026</span></div>
 </footer>
+<script>
+const previousExperience = document.querySelector("#experience details");
+let restorePreviousExperience = false;
+
+window.addEventListener("beforeprint", () => {
+  restorePreviousExperience = !previousExperience.open;
+  previousExperience.open = true;
+});
+
+window.addEventListener("afterprint", () => {
+  if (restorePreviousExperience) previousExperience.open = false;
+});
+</script>
 </body>
 </html>
