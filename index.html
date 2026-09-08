@@ -278,13 +278,15 @@ a.talk-item:hover time,a.talk-item:hover p{color:inherit}
 @media print{
   @page{size:A4;margin:12mm}
   :root{--bg:#fff;--paper:#fff;--ink:#000;--muted:#444;--line:#aaa}
+  html,body{width:auto!important;max-width:100%!important;overflow:visible!important}
   body{font-size:10pt;background:#fff}body::before,.skip-link,.site-nav,.hero-actions,.project-arrow{display:none}
-  .shell{width:100%;max-width:none}.hero{min-height:0;padding:0}.hero-main{grid-template-columns:1fr 130px;padding:0 0 20px;gap:25px}
+  .shell{width:auto;max-width:100%;margin-left:0;margin-right:0}.hero{min-height:0;padding:0}.hero-main{grid-template-columns:minmax(0,1fr) 130px;padding:0 0 20px;gap:25px}
   .hero h1{font-size:50pt}.hero-role{margin-top:15px}.portrait-wrap::before,.portrait-wrap::after,.portrait-caption{display:none}
-  .hero-stats{break-inside:avoid}.section{grid-template-columns:130px 1fr;gap:25px;padding:25px 0;break-inside:auto}
+  .hero-stats{break-inside:avoid}.section{grid-template-columns:130px minmax(0,1fr);gap:25px;padding:25px 0;break-inside:auto}
   .section h2{font-size:20pt}.section-intro{display:none}.lead-copy{font-size:15pt}.about-copy{margin-top:15px}
   .focus-grid{margin-top:15px}.focus-item{padding-top:12px;padding-bottom:12px}.focus-num{margin-bottom:8px}
-  .projects-section>.section-head{grid-template-columns:130px 1fr;gap:25px;margin-bottom:15px}.project-grid{grid-template-columns:1fr 1fr}
+  .projects-section>.section-head{grid-template-columns:130px minmax(0,1fr);gap:25px;margin-bottom:15px}.project-grid{width:100%;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .project-card,.project-content,.project-title{min-width:0}.project-content{overflow-wrap:anywhere}
   .project-card:first-child{grid-row:auto}.project-card:first-child .project-visual,.project-card:not(:first-child) .project-visual{height:140px}
   .project-card.wide{grid-column:auto;display:block}.project-card.wide .project-visual{height:140px}.project-card.wide .project-content{padding:15px}
   .project-content{padding:12px}.project-notes{display:none}.experience-group{padding-bottom:25px}.role-block{padding:12px 0}
