@@ -16,7 +16,7 @@ const root = resolve(__dirname, '..');
       await document.fonts.ready;
       await Promise.all([...document.images].filter(img => img.currentSrc || img.getAttribute('src')).map(img => img.decode()));
       const canonical = document.querySelector('link[rel="canonical"]').href;
-      document.querySelectorAll('details').forEach(detail => { detail.open = true; });
+      document.querySelectorAll('details').forEach(detail => { detail.open = false; });
       document.querySelectorAll('a[href]').forEach(a => {
         const href = a.getAttribute('href');
         a.href = new URL(href, canonical).href;

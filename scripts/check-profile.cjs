@@ -12,6 +12,24 @@ const url = pathToFileURL(resolve(__dirname, '../index.html')).href;
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(url, { waitUntil: 'networkidle' });
     assert.equal(await page.evaluate(() => typeof window.Motion.animate), 'function');
+    assert.equal(await page.getByRole('link', { name: '발표 영상 ↗' }).count(), 0);
+    assert.equal(await page.getByRole('link', { name: '발표 자료 ↗' }).count(), 0);
+    for (const selector of ['.portrait-play', '.tennis-play']) {
+      await page.locator(selector).focus();
+      await page.locator(selector).press('Enter');
+      await page.waitForFunction(selector => document.querySelector(`${selector} ${selector === '.portrait-play' ? '.portrait-card' : '.tennis-ball'}`).getAnimations().length > 0, selector, { timeout: 2000 });
+      await page.waitForFunction(selector => document.querySelector(`${selector} ${selector === '.portrait-play' ? '.portrait-card' : '.tennis-ball'}`).getAnimations().length === 0, selector);
+    }
+    assert.equal(await page.locator('.portrait-play').getAttribute('aria-pressed'), 'true');
+    assert.equal(await page.locator('.portrait-back').getAttribute('aria-hidden'), 'false');
+    assert.equal(await page.locator('.portrait-keywords > span').count(), 4);
+    await page.locator('.portrait-play').press('Space');
+    assert.equal(await page.locator('.portrait-play').getAttribute('aria-pressed'), 'false');
+    assert.equal(await page.locator('.portrait-front').getAttribute('aria-hidden'), 'false');
+    assert.equal(await page.locator('.status').count(), 0);
+    assert.equal(await page.locator('.career-details').getAttribute('open'), null);
+    assert.equal(await page.locator('.workflow-explorer').isVisible(), false);
+    await page.getByText('업무 흐름과 구현 상세 보기', { exact: true }).click();
     assert.equal(await page.locator('.workflow-explorer').isVisible(), true);
     assert.equal(await page.locator('.workflow .flow').isVisible(), false);
 
@@ -52,6 +70,9 @@ const url = pathToFileURL(resolve(__dirname, '../index.html')).href;
 
     for (const width of [320, 375, 768, 1280]) {
       await page.setViewportSize({ width, height: 900 });
+      await page.locator('.portrait-play').click();
+      assert.equal(await page.locator('.portrait-back').evaluate(back => back.scrollHeight <= back.clientHeight), true, `portrait keywords overflow at ${width}px`);
+      await page.locator('.portrait-play').click();
       for (let index = 0; index < 4; index++) {
         await tabs.nth(index).click();
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `overflow at ${width}px stage ${index}`);
@@ -64,19 +85,25 @@ const url = pathToFileURL(resolve(__dirname, '../index.html')).href;
     const reducedPage = await reduced.newPage();
     await reducedPage.goto(url, { waitUntil: 'networkidle' });
     assert.equal(await reducedPage.evaluate(() => document.getAnimations().length), 0);
+    await reducedPage.locator('.portrait-play').click();
+    await reducedPage.locator('.tennis-play').click();
+    assert.equal(await reducedPage.evaluate(() => document.getAnimations().length), 0);
+    await reducedPage.getByText('업무 흐름과 구현 상세 보기', { exact: true }).click();
     await reducedPage.getByRole('tab').nth(2).click();
     assert.equal(await reducedPage.locator('#stage-panel-2').isVisible(), true);
     assert.equal(await reducedPage.evaluate(() => document.getAnimations().length), 0);
     await reducedPage.emulateMedia({ media: 'print' });
-    assert.equal(await reducedPage.locator('.workflow .flow').isVisible(), true);
+    assert.equal(await reducedPage.locator('.workflow .flow').isVisible(), false);
+    assert.equal(await reducedPage.locator('.career-details').isVisible(), false);
     assert.equal(await reducedPage.locator('.workflow-explorer').isVisible(), false);
     assert.equal(await reducedPage.locator('.interest-guide').isVisible(), false);
-    console.log('PASS: reduced motion and static print fallback');
+    console.log('PASS: reduced motion and concise print without deep dives');
     await reduced.close();
 
     const noScript = await browser.newContext({ javaScriptEnabled: false });
     const staticPage = await noScript.newPage();
     await staticPage.goto(url, { waitUntil: 'networkidle' });
+    await staticPage.getByText('업무 흐름과 구현 상세 보기', { exact: true }).click();
     assert.equal(await staticPage.locator('h1').isVisible(), true);
     assert.equal(await staticPage.locator('.workflow .flow').isVisible(), true);
     assert.equal(await staticPage.locator('.workflow-explorer').isVisible(), false);
