@@ -95,3 +95,65 @@ button:focus-visible, [role="tabpanel"]:focus-visible { outline: 2px solid var(-
   .portrait::before, #cases > .case::before { display: none; }
   #cases > .case { border-top-width: 1px; }
 }
+
+/* Keep the introduction scannable; the full record stays available on request. */
+.case-deep-dive { margin-top: 24px; border-top: 1px solid var(--line); }
+.case-deep-dive summary, .career-details > summary { padding: 16px 0; cursor: pointer; color: var(--accent); font-size: .85rem; font-weight: 650; }
+.collaboration-method { margin-top: 28px; color: var(--muted); font-size: .85rem; }
+.education-invite { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 24px; font-size: .85rem; color: var(--muted); }
+.career-summary > div { display: grid; grid-template-columns: 110px 1fr; gap: 4px 24px; padding: 18px 0; border-top: 1px solid var(--line); }
+.career-summary time { grid-row: span 2; color: var(--muted); font-size: .8rem; }
+.career-summary strong { font-size: 1rem; }
+.career-summary p { font-size: .85rem; color: var(--muted); }
+.career-details { margin-top: 16px; }
+@media (max-width: 700px) {
+  .career-summary > div { grid-template-columns: 85px 1fr; gap: 4px 14px; }
+  .career-summary strong { font-size: .9rem; }
+  .stage-panel { min-height: 410px; }
+}
+@media print {
+  .section, .case-pair { break-before: auto !important; }
+  .section-heading { break-after: avoid; }
+  .career-summary { break-inside: avoid; }
+  .case-deep-dive, .career-details { display: none; }
+  .career-summary > div { padding: 9px 0; }
+  .career-summary strong { font-size: 10pt; }
+  .career-summary p, .career-summary time, .education-invite, .collaboration-method { font-size: 8pt; }
+}
+
+.portrait-play { display: block; position: relative; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.portrait-play img { transform-origin: 50% 80%; }
+.portrait-hint { position: absolute; right: 12px; top: 12px; background: var(--paper); color: var(--accent); border: 1px solid var(--line); border-radius: 50%; padding: 10px 8px; font-size: .7rem; }
+.personal-photo { position: relative; }
+.tennis-play { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 12px 0; width: 100%; border: 0; background: transparent; cursor: pointer; text-align: left; }
+.tennis-ball { position: relative; display: block; flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: #c6db49; border: 1px solid #8b9c26; overflow: hidden; box-shadow: inset -5px -4px 0 #aabf38; }
+.tennis-ball::before, .tennis-ball::after { content: ""; position: absolute; top: -6px; width: 34px; height: 48px; border: 2px solid #f6f7d7; border-radius: 50%; }
+.tennis-ball::before { left: -24px; transform: rotate(-15deg); }
+.tennis-ball::after { right: -24px; transform: rotate(15deg); }
+.tennis-hint { color: var(--olive); font-size: .76rem; }
+@media print { .portrait-hint, .tennis-play { display: none; } }
+@media print { #experience { break-inside: avoid; } }
+
+.portrait-play { perspective: 1100px; }
+.portrait-card { display: block; position: relative; transform-style: preserve-3d; }
+.portrait-front, .portrait-back { display: block; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.portrait-back { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 9%; background: var(--olive); color: var(--paper); transform: rotateY(180deg); text-align: left; }
+.back-kicker { font: .65rem ui-monospace, monospace; letter-spacing: .12em; color: #e0d1b5; margin-bottom: 20px; }
+.portrait-back > strong { font-size: clamp(1.25rem, 2.3vw, 2rem); line-height: 1.45; letter-spacing: -.04em; }
+.portrait-keywords { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; width: 100%; margin-top: 24px; }
+.portrait-keywords > span { display: block; border-top: 1px solid #87927b; padding-top: 9px; font-size: .85rem; font-weight: 550; }
+.back-return { margin-top: auto; padding-top: 18px; font-size: .65rem; color: #e0d1b5; }
+.portrait-hint { border-radius: 22px; }
+@media (max-width: 700px) {
+  .back-kicker { font-size: .56rem; margin-bottom: 12px; }
+  .portrait-back > strong { font-size: 1.2rem; }
+  .portrait-keywords { gap: 8px 12px; margin-top: 16px; }
+  .portrait-keywords > span { font-size: .72rem; padding-top: 7px; }
+  .back-return { font-size: .57rem; padding-top: 10px; }
+}
+@media print {
+  .portrait-card { transform: none !important; }
+  .portrait-back { display: none; }
+}
+.portrait:has(.portrait-play[aria-pressed="true"]) .field-stamp { visibility: hidden; }
+@media (max-width: 700px) { .portrait-back > strong { font-size: 1rem; } }

@@ -127,17 +127,17 @@
   const interests = {
     advice: {
       title: '어디부터 바꿀지, 함께 정리합니다.',
-      copy: '현재의 업무와 가장 막히는 지점을 알려 주세요. 적용 과제와 검증 기준부터 함께 이야기합니다.',
+      copy: '바꾸고 싶은 업무부터 알려 주세요.',
       action: 'AX 자문 이야기하기 ↗', subject: 'AX 문제 진단·자문 문의',
     },
     build: {
       title: '쓰는 도구 안에서, 작동하도록 만듭니다.',
-      copy: '자동화하고 싶은 업무, 사용 중인 도구와 데이터를 알려 주세요. 작은 검증부터 구현·연동·운영 범위를 정합니다.',
+      copy: '자동화할 업무와 사용 중인 도구를 알려 주세요.',
       action: '구현·자동화 이야기하기 ↗', subject: 'AI 구현·자동화 문의',
     },
     learn: {
       title: '배운 뒤 직접 활용할 수 있도록.',
-      copy: '교육 대상과 경험 수준, 다루고 싶은 업무를 알려 주세요. 강연·워크숍·실습의 주제와 형식을 함께 정합니다.',
+      copy: '교육 대상과 다루고 싶은 업무를 알려 주세요.',
       action: '교육·워크숍 이야기하기 ↗', subject: 'AX 교육·워크숍 문의',
     },
   };
@@ -156,6 +156,29 @@
     });
   });
   guide.hidden = false;
+
+  // Playful responses happen on demand, with no looping or layout changes.
+  const portraitPlay = document.querySelector('.portrait-play');
+  const portraitCard = portraitPlay.querySelector('.portrait-card');
+  let portraitFlipped = false;
+  portraitPlay.addEventListener('click', () => {
+    portraitFlipped = !portraitFlipped;
+    portraitPlay.setAttribute('aria-pressed', String(portraitFlipped));
+    portraitPlay.setAttribute('aria-label', portraitFlipped ? '프로필 사진으로 돌아가기' : '프로필 키워드 보기');
+    portraitPlay.querySelector('.portrait-front').setAttribute('aria-hidden', String(portraitFlipped));
+    portraitPlay.querySelector('.portrait-back').setAttribute('aria-hidden', String(!portraitFlipped));
+    animate(portraitCard, { transform: portraitFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)' }, { duration: .65 });
+  });
+  const tennisPlay = document.querySelector('.tennis-play');
+  let tennisBusy = false;
+  tennisPlay.addEventListener('click', () => {
+    if (tennisBusy || reducedMotion.matches) return;
+    tennisBusy = true;
+    animate(tennisPlay.querySelector('.tennis-ball'), {
+      transform: ['translateY(0) scale(1)', 'translateY(4px) scale(1.16, .8)', 'translateY(-70px) scale(.94, 1.06)', 'translateY(0) scale(1.12, .86)', 'translateY(-30px) scale(.97, 1.03)', 'translateY(0) scale(1.06, .94)', 'translateY(-9px) scale(1)', 'translateY(0) scale(1)'],
+    }, { duration: 1 });
+    setTimeout(() => { tennisBusy = false; }, 1000);
+  });
 
   const dialog = document.querySelector('.photo-dialog');
   const modalImage = dialog.querySelector('img');
