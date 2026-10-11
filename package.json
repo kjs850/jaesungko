@@ -1,6 +1,15 @@
 {
   "name": "jaesung-ko-profile",
   "private": true,
-  "scripts": { "export:profile": "node scripts/export-profile.cjs" },
-  "devDependencies": { "playwright": "1.63.0" }
+  "scripts": {
+    "export:profile": "node scripts/export-profile.cjs",
+    "vendor:motion": "node scripts/vendor-motion.cjs",
+    "check:profile": "node scripts/check-profile.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  },
+  "dependencies": {
+    "motion": "14.0.0"
+  }
 }

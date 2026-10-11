@@ -9,17 +9,17 @@ const root = resolve(__dirname, '..');
   const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
   try {
     const page = await browser.newPage({ viewport: { width: 1200, height: 900 }, deviceScaleFactor: 1 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(pathToFileURL(resolve(root, 'index.html')).href, { waitUntil: 'networkidle' });
     await page.evaluate(async () => {
       document.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
-      await document.fonts.load('600 16px Pretendard', '고재성');
       await document.fonts.ready;
-      if (!document.fonts.check('600 16px Pretendard', '고재성')) throw new Error('Profile font did not load');
-      await Promise.all([...document.images].map(img => img.decode()));
+      await Promise.all([...document.images].filter(img => img.currentSrc || img.getAttribute('src')).map(img => img.decode()));
       const canonical = document.querySelector('link[rel="canonical"]').href;
+      document.querySelectorAll('details').forEach(detail => { detail.open = true; });
       document.querySelectorAll('a[href]').forEach(a => {
         const href = a.getAttribute('href');
-        if (!href.startsWith('#')) a.href = new URL(href, canonical).href;
+        a.href = new URL(href, canonical).href;
       });
     });
     await page.pdf({ path: resolve(root, 'public/jaesung-ko-profile.pdf'), format: 'A4', printBackground: true, preferCSSPageSize: true, tagged: true });
